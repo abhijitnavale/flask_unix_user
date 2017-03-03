@@ -1,0 +1,19 @@
+$( document ).ready(function() {
+    console.log( "ready!" );
+    
+    var transition;
+
+    $('.delete-account').on('click', function() {
+        console.log($(this).attr('id'));
+	$(this.id).showModal();
+	transition = setTimeout(function() {
+	    $('#'+$this.id).addClass('dialog-scale');
+	}, 0.5);
+    });
+
+    $('#cancel').on('click', function() {
+	$('#'+$this.id).close();
+	$('#'+$this.id).removeClass('dialog-scale');
+	clearTimeout(transition);
+    });
+});

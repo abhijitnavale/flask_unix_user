@@ -1,0 +1,45 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}Manage Linux Users From Python Flask{% endblock %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet"
+      href="{{url_for('static', filename='styles.css')}}">
+{% endblock %}
+
+
+
+{% block navbar %}
+<div class="navbar navbar-default">
+    <ul class="nav navbar-nav">
+        <li><a href="#">Add New User</a></li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+<h1>List of All Users</h1>
+<table>
+  {% if users_list %}
+    {% for u in  users_list[0].split() %}
+    <tr>
+        <td class="user-names">{{ u }}</td>
+        <td class="user-actions"><span class="glyphicon glyphicon-pencil"></span></td>
+        <td class="user-actions">
+            <span id="{{u}}" class="delete-account glyphicon glyphicon-remove"></span>
+            <dialog class="confirm-delete" id="{{u}}">Are you sure?</dialog>
+        </td>
+    </tr>
+    {% endfor %}
+    {% else %}
+    No Users Exists Yet!
+    {% endif %}
+</table>
+{% endblock %}
+
+{% block scripts %}
+<script type=text/javascript src="{{
+                                  url_for('static', filename='jquery.js') }}"></script>
+<script src="{{url_for('static', filename='javascript.js')}}"></script>
+{{super()}}
+{% endblock %}

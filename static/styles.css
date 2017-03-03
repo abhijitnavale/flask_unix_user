@@ -1,0 +1,36 @@
+body {
+    margin: 0 auto;
+    width: 960px;
+}
+.glyphicon-pencil {
+    color: darkorange;
+}
+.glyphicon-remove {
+    color: red;
+}
+td {
+    padding-top: 10px;
+    padding-bottom: 5px;
+}
+td.user-actions {
+    padding-left: 50px;
+}
+tr {
+    border-bottom: 1px solid grey;
+}
+.sure {
+    color: red;
+}
+.confirm-delete {
+    display: none;
+    border: 0;
+}
+dialog {
+    visibility: hidden;
+    transform: scale(0.1);
+    transition: transform 200ms;
+}
+dialog.dialog-scale {
+    visibility: visible;
+    transform: scale(1);
+}
