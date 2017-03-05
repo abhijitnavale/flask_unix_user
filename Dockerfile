@@ -8,7 +8,7 @@ RUN echo "UnaiF0zo" | passwd root --stdin
 RUN cd /root
 RUN git clone https://github.com/abhijitnavale/flask_unix_user.git
 EXPOSE 5000
-WORKDIR /root/flask_unix_user
-RUN pip install -r requirements.txt
+WORKDIR /flask_unix_user
+RUN pip install -r /flask_unix_user/requirements.txt
 RUN export LOGINPASSWORD="UnaiF0zo"
 CMD python flask_app.py
