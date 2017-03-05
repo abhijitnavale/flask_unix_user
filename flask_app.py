@@ -9,22 +9,26 @@ def create_app():
 
 app = create_app()
 
-@app.route("/get_users_list")
 def get_users_list():
     ul = subprocess.check_output(['./create_user.sh', '-L'])
+    return ul.split('\n')[:-1]
+
+def get_self():
     ms = subprocess.check_output(['./create_user.sh', '-S'])
-    users_list = ul.split('\n')[:-1]
-    myself = ms.split('\n')[:-1]
+    return ms.split('\n')[:-1]
+
+@app.route("/get_users_list")
+def get_users_list():
+    users_list = get_users_list()
+    myself = get_self()
     users_list.remove(myself[0])
 
     return jsonify(users_list)
 
 @app.route("/")
 def manage_users():
-    ul = subprocess.check_output(['./create_user.sh', '-L'])
-    ms = subprocess.check_output(['./create_user.sh', '-S'])
-    users_list = ul.split('\n')[:-1]
-    myself = ms.split('\n')[:-1]
+    users_list = get_users_list()
+    myself = get_self()
     users_list.remove(myself[0])
     
     return render_template('manage_users.html', users_list=users_list)

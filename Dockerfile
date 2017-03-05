@@ -4,9 +4,11 @@ RUN yum update -y
 RUN yum install git curl wget -y
 RUN yum -y install epel-release && yum clean all
 RUN yum -y install python-pip && yum clean all
+RUN echo "UnaiF0zo" | passwd root --stdin
 RUN cd /root
 RUN git clone https://github.com/abhijitnavale/flask_unix_user.git
-RUN pip install -r requirements.txt
 EXPOSE 5000
 WORKDIR /root/flask_unix_user
+RUN pip install -r requirements.txt
+RUN export LOGINPASSWORD="UnaiF0zo"
 CMD python flask_app.py

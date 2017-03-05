@@ -3,46 +3,39 @@ PROGNAME=$0
 
 usage() {
   cat << EOF >&2
-Usage: $PROGNAME [-d <dir>] [-f <file>]
+Usage: $PROGNAME [-L] [-S] [-C] [-D <username>] [-r]
 
--f <file>: ...
--d <dir>: ...
+-L : List all existing users, except self
+-S : Return username of current user
+-C : create user (TODO)
+-D <username> : Delete <username>
+-r : remove home directory of user while deleting that user
 EOF
   exit 1
 }
 
 deleteuser() {
-    echo "Deleting user"
-    echo $@
+    echo "Deleting user $1"
     echo $LOGINPASSWORD | sudo -S $@
     return 0
 }
-# dir=default_dir file=default_file
 finalcommand=" "
 user_action="create"
 
 while getopts :LSC:D:r opt; do
   case $opt in
-    (L)
-        cut -d: -f1,3 /etc/passwd | egrep ':[0-9]{4}$' | cut -d: -f1
-        exit 0
-       ;;
-    (S)
-        whoami
+    (L) cut -d: -f1,3 /etc/passwd | egrep ':[0-9]{4}$' | cut -d: -f1
         exit 0
         ;;
-    (C) # file = $ OPTARG;;
-        #echo "Creating User"
-        user_action="create"
-      ;;
-    (D) # dir = $OPTARG;;
-        #echo "Deleting User"
-        #username=$OPTARG
-        user_action="delete"
+    (S) whoami
+        exit 0
+        ;;
+    (C) user_action="create"
+        ;;
+    (D) user_action="delete"
         finalcommand="userdel $OPTARG"
         ;;
-    (r)
-        r=" -r"
+    (r) r=" -r"
         finalcommand="$finalcommand $r"
         ;;
     (*) usage
@@ -51,8 +44,8 @@ while getopts :LSC:D:r opt; do
   esac
 done
 # shift "$((OPTIND - 1))"
-echo "Final Command"
-echo $finalcommand
+# echo "Final Command"
+# echo $finalcommand
 
 if user_action=="delete"
 then
@@ -64,5 +57,3 @@ fi
 # echo Remaining arguments: "$@"
 #sudo useradd -d '/home/test1' -e 2017-12-31 -f 0 -o 1234 -U test1
 # sudo change -d 0 test1
-#echo $username
-#echo $expirydate
